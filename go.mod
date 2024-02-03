@@ -98,7 +98,7 @@ require (
 	github.com/outcaste-io/ristretto v0.2.3 // indirect
 	github.com/quic-go/qpack v0.4.0 // indirect
 	github.com/quic-go/qtls-go1-20 v0.3.4 // indirect
-	github.com/quic-go/quic-go v0.39.3 // indirect
+	github.com/quic-go/quic-go v0.39.4 // indirect
 	github.com/quic-go/webtransport-go v0.6.0 // indirect
 	github.com/richardartoul/molecule v1.0.1-0.20221107223329-32cfee06a052 // indirect
 	github.com/secure-systems-lab/go-securesystemslib v0.7.0 // indirect

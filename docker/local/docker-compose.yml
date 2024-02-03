@@ -1,0 +1,166 @@
+version: '3.9'
+
+services:
+  ## RUN ROOTCHAIN
+  rootchain:
+    image: ghcr.io/DAO-Metaplayer/go-ethereum-console:latest
+    container_name: metachain-rootchain
+    command: [
+      "--dev",
+      "--dev.period", "2",
+      "--datadir", "/eth1data",
+      "--ipcpath", "/eth1data/geth.ipc",
+      "--http",
+      "--http.addr", "0.0.0.0",
+      "--http.vhosts", "*",
+      "--http.api", "eth,net,web3,debug",
+      "--ws",
+      "--ws.addr", "0.0.0.0"
+    ]
+    ports:
+      - '8545:8545'
+    volumes:
+      - eth1data:/eth1data
+    networks:
+      - metachain-docker
+
+  ## INITIALIZE GENESIS AND SECRETS, ETC.
+  init:
+    build:
+      context: ../../
+      dockerfile: docker/local/Dockerfile
+    image: local/metachain
+    container_name: metachain-bootstrapper
+    command: [ "init", "${CHAIN_CONSENSUS:-mbft}" ]
+    depends_on:
+      rootchain:
+        condition: service_started
+    volumes:
+      - data:/data
+    networks:
+      - metachain-docker
+
+  ## RUN NODES
+  node-1:
+    image: local/metachain
+    container_name: metachain-validator-1
+    command: [
+      "server",
+      "--data-dir", "/data/data-1",
+      "--chain", "/data/genesis.json",
+      "--grpc-address", "0.0.0.0:9632",
+      "--libp2p", "0.0.0.0:1478",
+      "--jsonrpc", "0.0.0.0:8545",
+      "--prometheus", "0.0.0.0:5001",
+      "--seal",
+      "--relayer"
+    ]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      rootchain:
+        condition: service_started
+    ports:
+      - '10000:9632'
+      - '10002:8545'
+      - '10003:5001'
+    volumes:
+      - data:/data
+    networks:
+      - metachain-docker
+    restart: on-failure
+
+  node-2:
+    image: local/metachain
+    container_name: metachain-validator-2
+    command: [
+      "server",
+      "--data-dir",
+      "/data/data-2",
+      "--chain", "/data/genesis.json",
+      "--grpc-address", "0.0.0.0:9632",
+      "--libp2p", "0.0.0.0:1478",
+      "--jsonrpc", "0.0.0.0:8545",
+      "--prometheus", "0.0.0.0:5001",
+      "--seal"
+    ]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      rootchain:
+        condition: service_started
+    ports:
+      - '20000:9632'
+      - '20002:8545'
+      - '20003:5001'
+    volumes:
+      - data:/data
+    networks:
+      - metachain-docker
+    restart: on-failure
+
+  node-3:
+    image: local/metachain
+    container_name: metachain-validator-3
+    command: [
+      "server",
+      "--data-dir", "/data/data-3",
+      "--chain", "/data/genesis.json",
+      "--grpc-address", "0.0.0.0:9632",
+      "--libp2p", "0.0.0.0:1478",
+      "--jsonrpc", "0.0.0.0:8545",
+      "--prometheus", "0.0.0.0:5001",
+      "--seal"
+    ]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      rootchain:
+        condition: service_started
+    ports:
+      - '30000:9632'
+      - '30002:8545'
+      - '30003:5001'
+    volumes:
+      - data:/data
+    networks:
+      - metachain-docker
+    restart: on-failure
+
+  node-4:
+    image: local/metachain
+    container_name: metachain-validator-4
+    command: [
+      "server",
+      "--data-dir",  "/data/data-4",
+      "--chain", "/data/genesis.json",
+      "--grpc-address", "0.0.0.0:9632",
+      "--libp2p", "0.0.0.0:1478",
+      "--jsonrpc", "0.0.0.0:8545",
+      "--prometheus", "0.0.0.0:5001",
+      "--seal"
+    ]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      rootchain:
+        condition: service_started
+    ports:
+      - '40000:9632'
+      - '40002:8545'
+      - '40003:5001'
+    volumes:
+      - data:/data
+    networks:
+      - metachain-docker
+    restart: on-failure
+
+networks:
+  metachain-docker:
+    driver: bridge
+    name: metachain-docker
+
+volumes:
+  data:
+  eth1data:
+  genesis:

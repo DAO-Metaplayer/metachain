@@ -21,7 +21,7 @@ var DefaultGasHelperConfig = &Config{
 	PricePercentile:    60,
 	SampleNumber:       3,
 	MaxPrice:           ethgo.Gwei(10),
-	LastPrice:          ethgo.Gwei(1),
+	LastPrice:          ethgo.Gwei(0),
 	IgnorePrice:        big.NewInt(2), // 2 wei
 }
 

@@ -84,7 +84,7 @@ test-property-mbft: check-go
 
 .PHONY: compile-core-contracts
 compile-core-contracts: check-npm
-	cd core-contracts && npm install && npm run compile
+	cd metacore-contracts && npm install && npm run compile
 	$(MAKE) generate-smart-contract-bindings
 
 .PHONY: generate-smart-contract-bindings
@@ -118,7 +118,7 @@ help:
 	@printf "  %-35s - %s\n" "test-e2e" "Run end-to-end tests"
 	@printf "  %-35s - %s\n" "test-e2e-mbft" "Run end-to-end tests for MBFT"
 	@printf "  %-35s - %s\n" "test-property-mbft" "Run property tests for MBFT"
-	@printf "  %-35s - %s\n" "compile-core-contracts" "Compile core contracts"
+	@printf "  %-35s - %s\n" "compile-core-contracts" "Compile metacore contracts"
 	@printf "  %-35s - %s\n" "generate-smart-contract-bindings" "Generate smart contract bindings"
 	@printf "  %-35s - %s\n" "run-docker" "Run Docker cluster for MBFT"
 	@printf "  %-35s - %s\n" "stop-docker" "Stop Docker cluster for MBFT"

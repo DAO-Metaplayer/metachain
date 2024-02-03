@@ -31,7 +31,7 @@ const (
 
 var (
 	// GenesisBaseFee is the initial base fee for EIP-1559 blocks.
-	GenesisBaseFee = ethgo.Gwei(1).Uint64()
+	GenesisBaseFee = ethgo.Gwei(0).Uint64()
 )
 
 // Chain is the blockchain chain configuration

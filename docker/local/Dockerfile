@@ -19,7 +19,7 @@ WORKDIR /metachain
 
 COPY --from=builder /metachain/metachain ./
 COPY ./docker/local/metachain.sh ./
-COPY ./core-contracts/artifacts ./core-contracts/artifacts
+COPY ./metacore-contracts/artifacts ./metacore-contracts/artifacts
 
 # Expose json-rpc, libp2p and grpc ports
 EXPOSE 8545 9632 1478 5001

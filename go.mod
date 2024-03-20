@@ -58,7 +58,7 @@ require (
 )
 
 require (
-	github.com/docker/docker v24.0.7+incompatible
+	github.com/docker/docker v24.0.9+incompatible
 	github.com/docker/go-connections v0.5.0
 	go.etcd.io/bbolt v1.3.8
 )
